@@ -60,9 +60,9 @@ We are expecting your repo with the following:
 
 **Bonus**: Can you make it to run on a container (Docker)? 
 
-
+---
 ## A. Cat Lovers
-------
+
 If you are a cat lover, you would enjoying processing [cat fact](https://catfact.ninja/fact).
 
 For this exercise, build a comprehensive cat fact dataset with an autonomous data load.
@@ -104,7 +104,6 @@ We are expecting the following queries and some results:
 
 
 ## C. The old fashion ETL Master 
---------- 
 
 1. The data for this exercise can be found on the `data.zip` file. Can you describe the file format?
 
@@ -142,6 +141,7 @@ Can you using the designed star schema (or if you prefer the raw data), generate
 
 5. Compare the sales revenue of on current period against previous period?
 
+---
 
 Data profilling
 ----   
@@ -152,7 +152,7 @@ What tools or techniques you would use to profile the data?
 What results of the data profiling can impact on your analysis and design?   
 
 
-ERD
+ERD for the ETL Master option
 --
 ![alt text](erd.png "ERD")
 
