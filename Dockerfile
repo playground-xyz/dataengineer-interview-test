@@ -5,7 +5,7 @@ COPY requirements.txt .
 RUN apt-get -y --allow-releaseinfo-change update \
 	&& apt-get -y install python3 git \
 	&& python3 -m pip install -U pip \
-	&& pip3 install -r /requirements.txt
+	&& pip3 install -r /requirements_main.txt
 
 COPY application /application
 
