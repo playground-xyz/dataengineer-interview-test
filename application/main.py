@@ -1,4 +1,5 @@
 from common.config import Config
+from common.template import SqlTemplate
 import asyncio
 from asyncio.log import logger
 import sqlite3
@@ -19,28 +20,29 @@ LOGGER_FORMAT = '%(asctime)s %(message)s'
 logging.basicConfig(format=LOGGER_FORMAT, datefmt='[%H:%M:%S]')
 log = logging.getLogger()
 log.setLevel(logging.INFO)
+current_path = os.path.dirname(os.path.realpath(__file__))
 
 
 def init_db():
-
     try:
-        os.remove("dbs/interview.db")
+        os.remove(current_path+"/"+"dbs/interview.db")
     except OSError:
         pass
 
     country_data = []
-    with open("country.csv") as f:
+
+    with open(current_path+"/"+"/country.csv") as f:
         reader = csv.DictReader(f)
         for row in reader:
             country_data.append((row["Name"], row["Nationality"]))
 
     ddls = [Config.COUNTRY_DDL, Config.CAT_FACT_DDL,
             Config.CAT_FACT_UNICODE_DDL, Config.CAT_FACT_WORDS_DDL]
-    with sqlite3.connect('dbs/interview.db') as conn:
+    with sqlite3.connect(current_path+"/"+'dbs/interview.db') as conn:
         cursor = conn.cursor()
         for ddl in ddls:
             cursor.execute(ddl)
-        cursor.executemany("INSERT INTO COUNTRYS VALUES(?, ?)", country_data)
+        cursor.executemany("INSERT INTO COUNTRIES VALUES(?, ?)", country_data)
 
 
 async def get_fact(url: str, rate, session) -> str:
@@ -101,9 +103,11 @@ def main():
     for hashkey, fact in facts_data.items():
         # Save the words after removing special characters
         words_remove_special_chars = re.sub(
-            r"[^a-zA-Z- -'-‘-’]", "", fact)
+            r"[^a-zA-Z- -'-‘-’]", "", fact).split(" ")
+
+        # Remove empty string from split result
         word_counts = Counter(
-            words_remove_special_chars.split(" "))
+            [word for word in words_remove_special_chars if word])
         char_counts = Counter(fact)
 
         facts_words_data_sql += [(hashkey, word, count)
@@ -116,7 +120,7 @@ def main():
     facts_data_sql = [(hashkey, fact)
                       for hashkey, fact in facts_data.items()]
 
-    with sqlite3.connect('dbs/interview.db') as conn:
+    with sqlite3.connect(current_path+"/"+"dbs/interview.db") as conn:
         cursor = conn.cursor()
         cursor.executemany(
             "INSERT INTO CAT_FACTS VALUES(?, ?)", facts_data_sql)
@@ -125,6 +129,22 @@ def main():
         cursor.executemany(
             "INSERT INTO CAT_FACT_UNICODE_COUNT VALUES(?, ?, ?)", facts_unicode_data_sql)
         cursor.execute("select * from CAT_FACT_UNICODE_COUNT")
+
+    with sqlite3.connect(current_path+"/"+"dbs/interview.db") as conn:
+        cursor = conn.cursor()
+        cursor.execute(SqlTemplate.get_number_of_words_sql())
+        print(cursor.fetchall())
+
+        cursor.execute(
+            SqlTemplate.get_nth_common_or_least_unicode())
+        print(cursor.fetchall())
+
+        cursor.execute(
+            SqlTemplate.get_top_bottom_n_words())
+        print(cursor.fetchall())
+
+        cursor.execute(
+            SqlTemplate.get_nth_common_or_least_country())
         print(cursor.fetchall())
 
 

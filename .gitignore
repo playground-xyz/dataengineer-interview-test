@@ -119,3 +119,4 @@ venv.bak/
 .python-version
 example.db
 
+*.db
