@@ -5,13 +5,11 @@ from asyncio.log import logger
 import sqlite3
 import logging
 import aiohttp
-from async_timeout import timeout
-from requests import request, session, get
+from requests import get
 import json
 import hashlib
 from collections import defaultdict, Counter
 from jinja2 import Template
-import logging
 import re
 import csv
 import os
