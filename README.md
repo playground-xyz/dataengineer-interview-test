@@ -71,7 +71,7 @@ A sql engine is used for storing all the cat facts data. For the purpose of this
 	- In ancient Egypt, when a family cat died, all family members would shave their eyebrows as a sign of mourning. ( Interesting, what if... only what if  another family cat dies before new eyebrows grows)
 
 6. Bonus: Can you make any sentiment analysis from those facts?
-	- [Sentiment Analysis](#bonus)
+	- [Bonus answer](#bonus)
 
 #### To Run the program
 - **virtualenv with pyenv (pyenv need to be installed)** 
