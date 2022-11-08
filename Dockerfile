@@ -1,7 +1,7 @@
 FROM python:3.8-slim
 LABEL maintainer "Si Wang"
 
-COPY requirements.txt .
+COPY requirements_main.txt .
 RUN apt-get -y --allow-releaseinfo-change update \
 	&& apt-get -y install python3 git \
 	&& python3 -m pip install -U pip \

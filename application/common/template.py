@@ -90,17 +90,44 @@ class SqlTemplate:
         sql = """
            WITH sum_word_count AS (
              SELECT
-                    word
-                   ,SUM(word_count) AS word_count
-             FROM
-                CAT_FACT_WORD_COUNT
-             JOIN 
-                COUNTRIES
-             ON CAT_FACT_WORD_COUNT.word = COUNTRIES.country_name
-              GROUP BY word)
+                   word
+                  ,sum(word_count) AS word_count
+             FROM (
+                  SELECT
+                        word
+                        ,SUM(word_count) AS word_count
+                  FROM
+                     CAT_FACT_WORD_COUNT
+                  JOIN 
+                     COUNTRIES
+                  ON CAT_FACT_WORD_COUNT.word = COUNTRIES.country_name
+                  GROUP BY word
+              
+                  UNION ALL 
+
+                  SELECT 
+                     country_name
+                     ,word_count
+                  FROM 
+                     (SELECT
+                           word
+                           ,SUM(word_count) AS word_count
+                     FROM
+                        CAT_FACT_WORD_COUNT
+                     JOIN 
+                        COUNTRIES
+                     ON CAT_FACT_WORD_COUNT.word = COUNTRIES.nationality
+                     GROUP BY word
+                     ) nationality JOIN COUNTRIES
+                  ON nationality.word = COUNTRIES.nationality
+              
+             )
+             GROUP BY word
+              
+         )
            , sum_rank_word AS (
            SELECT
-                word
+                 word
                 ,word_count
                 ,DENSE_RANK() OVER (ORDER BY word_count {% if most_common %} DESC {% endif %}) as _rank
            FROM sum_word_count
