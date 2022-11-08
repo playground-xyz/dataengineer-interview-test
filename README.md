@@ -71,7 +71,7 @@ A sql engine is used for storing all the cat facts data. For the purpose of this
 	- In ancient Egypt, when a family cat died, all family members would shave their eyebrows as a sign of mourning. ( Interesting, what if... only what if  another family cat dies before new eyebrows grows)
 
 6. Bonus: Can you make any sentiment analysis from those facts?
-[Sentiment Analysis](#bonus)
+	- [Sentiment Analysis](#bonus)
 
 #### To Run the program
 - **virtualenv with pyenv (pyenv need to be installed)** 
@@ -89,6 +89,9 @@ A sql engine is used for storing all the cat facts data. For the purpose of this
 	```
 
 ### Bonus
+**The Jupyter Notebook for sentiment analysis**
+
+[sentiment analysis](https://github.com/siwangs/dataengineer-interview-test/blob/main/application/cat_fact_sentiment_analysis.ipynb)
 #### Prequisted
 
 Due to size of the dependency packages, I did not put them as part of requirement of the main task. In order to reran the Jupyter notebook. Please run following command:
