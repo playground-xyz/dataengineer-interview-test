@@ -1,0 +1,5 @@
+{
+    "python.analysis.extraPaths": [
+        "./zansari_etl_master/tables"
+    ]
+}
