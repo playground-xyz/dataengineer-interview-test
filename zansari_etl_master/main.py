@@ -7,7 +7,14 @@ from etlpackage import extract, transform
 zipfile_source_location = '../data.zip'
 query_file_location = "../ddl.sql"
 unzip_target_location = 'tables'
-raw_engine = create_engine('sqlite:///raw.db', echo = False)
+
+import sys
+
+if sys.argv[0] == "data_gen":
+    raw_engine = create_engine('sqlite:///TPCH-sqlite/TPC-H.db', echo = False)
+else:
+    raw_engine = create_engine('sqlite:///raw.db', echo = False)
+    
 conformed_engine = create_engine('sqlite:///conformed.db', echo = False)
 semantic_engine = create_engine('sqlite:///semantic.db', echo = False)
 

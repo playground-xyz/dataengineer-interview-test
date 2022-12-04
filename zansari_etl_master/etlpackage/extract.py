@@ -5,11 +5,7 @@
 
 import zipfile
 import pandas as pd
-from sqlalchemy import text, inspect, MetaData, create_engine
-
-
-# zipfile_source_location = '../data.zip'
-# unzip_target_location = 'tables'
+from sqlalchemy import text, inspect
 
 def unzip_data_file(zipfile_source_location,unzip_target_location):
     try:
@@ -18,10 +14,6 @@ def unzip_data_file(zipfile_source_location,unzip_target_location):
     except:
         raise ValueError("Invalid source or target location")
     return f"zip file  extracted from {zipfile_source_location} to {unzip_target_location}"
-
-
-# raw_engine = create_engine('sqlite:///raw.db', echo = False)
-# query_file_location = "../ddl.sql"
 
 def run_create_table_script(engine, query_file_location):
     try:
@@ -35,10 +27,6 @@ def run_create_table_script(engine, query_file_location):
         raise Exception(f"Cannot connect to {engine} or no file found at {query_file_location}")
     return f"Tables created from {query_file_location}"
 
-
-# tables = os.listdir('tables')
-
-# for table in tables:
 
 def add_data_to_tables(table, engine):
     try:
