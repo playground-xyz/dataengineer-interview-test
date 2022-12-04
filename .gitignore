@@ -119,3 +119,7 @@ venv.bak/
 .python-version
 example.db
 
+zansari_etl_master/semantic.db
+zansari_etl_master/conformed.db
+zansari_etl_master/raw.db
+zansari_etl_master/TPCH-sqlite/TPC-H.db

@@ -1,4 +1,4 @@
-
+import sys
 import os
 import pandas as pd
 from sqlalchemy import create_engine
@@ -8,39 +8,33 @@ zipfile_source_location = '../data.zip'
 query_file_location = "../ddl.sql"
 unzip_target_location = 'tables'
 
-import sys
-
-if sys.argv[0] == "data_gen":
-    raw_engine = create_engine('sqlite:///TPCH-sqlite/TPC-H.db', echo = False)
-else:
-    raw_engine = create_engine('sqlite:///raw.db', echo = False)
-    
 conformed_engine = create_engine('sqlite:///conformed.db', echo = False)
 semantic_engine = create_engine('sqlite:///semantic.db', echo = False)
 
-# clear environment for a clean run
-if os.path.exists("raw.db"):
-  os.remove("raw.db")
+if sys.argv[1] == "data_gen":
+    raw_engine = create_engine('sqlite:///TPCH-sqlite/TPC-H.db', echo = False)
+    
 else:
-  print("The file does not exist. ")
-
-
-# unzip data.ztip file and extract all tables data
-res = extract.unzip_data_file(zipfile_source_location,unzip_target_location )
-print(res)
-
-# Initiate all table using the ddl.sql file
-res = extract.run_create_table_script(raw_engine, query_file_location)
-print(res)
-
-# get list of all tables extracted and add data from them into created tables
-tables = os.listdir(unzip_target_location)
-print(tables)
-for table in tables:
-    if table.split('.')[1] != 'tbl':
-        continue
-    res = extract.add_data_to_tables(table, raw_engine)
+    raw_engine = create_engine('sqlite:///raw.db', echo = False)
+    # unzip data.ztip file and extract all tables data
+    res = extract.unzip_data_file(zipfile_source_location,unzip_target_location )
     print(res)
+
+    # Initiate all table using the ddl.sql file
+    res = extract.run_create_table_script(raw_engine, query_file_location)
+    print(res)
+    
+    # get list of all tables extracted and add data from them into created tables
+    tables = os.listdir(unzip_target_location)
+    print(tables)
+    for table in tables:
+        if table.split('.')[1] != 'tbl':
+            continue
+        res = extract.add_data_to_tables(table, raw_engine)
+        print(res)
+
+
+
 
 ####################################################################################################################################################################################################################################
 
