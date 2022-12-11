@@ -79,10 +79,6 @@ This script reads data files from 'issplayground' S3 bucket into pandas datafram
 
 This script reads data from transactional tables and loads data into customer order star schema data model. This runs as Airflow DAG. The DAG is scheduledd to run daily at 10 PM.  
 
-4. ReportQueries.sql  
-
-This script contains queries that helps business make executive decisions. Report queries give analytical insights into top nations and customers in terms of revenue, top selling month and sales revenue. 
-
 ## Data Profiling
 
 Below are data profiling techniques implemented for high data quality and integrity to help better decision making.
@@ -142,4 +138,9 @@ Provide access key Id in the login and secret key in the password.
 
 dw_data_load: loads data from transactional tables into star schema dimensional model
 s3_postgresql: loads data from AWS S3 into transactional tables
+
+## Data Reporting
+ReportQueries.sql  
+
+This script contains queries that helps business make executive decisions. Report queries give analytical insights into top nations and customers in terms of revenue, top selling month and sales revenue. 
 
