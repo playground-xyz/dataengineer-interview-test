@@ -77,7 +77,7 @@ This script reads data files from 'issplayground' S3 bucket into pandas datafram
 
 3. dw_dataload.py
 
-This script reads data from transactional tables and loads data into customer order star schema data model. This runs as Airflow DAG. The DAG is scheduledd to run daily at 10 PM.  
+This script reads data from transactional tables and loads data into customer order star schema data model. This runs as Airflow DAG. The DAG is scheduled to run daily at 10 PM.  
 
 ## Data Profiling
 
@@ -120,13 +120,13 @@ b. docker run --name postgres -e POSTGRES_USER=username -e POSTGRES_PASSWORD=pas
 2. Pull Airflow docker and start the instance by running below command. Persists dag folder to local drive.
 docker run -d -p 8080:8080 -v /path/to/dags/on/your/local/machine/:/usr/local/airflow/dags  puckel/docker-airflow webserver
 
-3. Setup AWS S3 connection in Airflow by naviagting to Admin -> Connections as shown below.
+3. Setup AWS S3 connection in Airflow by navigating to Admin -> Connections as shown below.
 
 Provide access key Id in the login and secret key in the password. 
 
 ![](images/S3_Connection.png)
 
-4. Setup connection to local PostgreSQL by naviagting to Admin -> Connections as shown below.
+4. Setup connection to local PostgreSQL by navigating to Admin -> Connections as shown below.
 
 ![](images/postgres_connection.png)
 
@@ -153,22 +153,22 @@ SQL queries within this script answer below questions
 5. Compare the sales revenue of on current period against previous period?
 
 dw_reportinqueries.sql
-This script contains queries that helps business make executive decisions. Queries uses customer order star schema dimensional model and provides same analytical insigts as ReportQueries.sql. When compared to ReportQueries.sql, these queries uses less join to answer the above questions thus providing better read performance. This is one of the benefit of denormalising table and star schema dimensional model.
+This script contains queries that helps business make executive decisions. Queries uses customer order star schema dimensional model and provides same analytical insight as ReportQueries.sql. When compared to ReportQueries.sql, these queries uses less join to answer the above questions thus providing better read performance. This is one of the benefit of denormalization and star schema dimensional model.
 
 
 ## Customer account classification  
-Customer account balance can be classified into 3 groups by creating a accbalance table and establishing one to many relationship with customer table. This solution satisfy 3rd normal form. In future if more than 3 groups are required for classification, this solution can easily scale to meet the requirement without any data quality issue. 
+Customer account balance can be classified into 3 groups by creating a 'accbalance' table and establishing one to many relationship with customer table. This solution satisfy 3rd normal form. In future if more than 3 groups are required for classification, this solution can easily scale to meet the requirement without any data quality issue. 
 
 ![](images/CustomerAccountBalanceGroup.png)
 
 ## Add revenue per line item
-This can be achieved by denormalising orders and lineitem tables into a single table as shown below. o_totalprice is the revenue for the order per line item
+This can be achieved by denormalization of orders and lineitem tables into a single table as shown below. 'o_totalprice' is the revenue column for order per line item
 
 ![](images/revenueperlineitem.png)
 
 ## Convert the dates to be distributed over the last 2 years
 
-Data can be distributed over the last 2 years through partitioning. For instance below query will partiton the orders table on the order date column.
+Data can be distributed over the last 2 years through partitioning. For instance below query will partition the orders table on the order date column.
 
 ```
 CREATE TABLE orders (
