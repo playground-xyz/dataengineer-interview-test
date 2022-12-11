@@ -184,3 +184,11 @@ CREATE TABLE orders_1998_1997 PARTITION OF orders
     FOR VALUES FROM ('1997-01-01') TO ('1998-12-31');
 ```    
 
+## What to do if the data arrives in random order and times via streaming?
+
+s3_postgresql dag runs every 15 minutes to load data from S3 bucket. This ensures data is ingested even if the data arrives at different times and in random order. The dag also handles conflict for duplicate records. The code can also be modified to do upsert for data ingestion. 
+
+## Would be a problem if the data from the source system is growing at 6.1-12.7% rate a month?
+lineitem and orders table are the biggest tables containing 60175 and 15000 records respectively. At a rate of 6.1-12.7%, lineitem table grows by 3671-7642 records a month. This is still manageable for the data ingestion. To improve the data load performance, delta load can be implemented by introducing timestamp column in source system and ingesting only new or modified records based on timestamp.
+
+## Encoded file bonus_etl_data_gen.txt
