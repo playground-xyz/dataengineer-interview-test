@@ -144,3 +144,43 @@ ReportQueries.sql
 
 This script contains queries that helps business make executive decisions. Report queries give analytical insights into top nations and customers in terms of revenue, top selling month and sales revenue. 
 
+SQL queries within this script answer below questions  
+
+1. What are the top 5 nations in terms of revenue?
+2. From the top 5 nations, what is the most common shipping mode?
+3. What are the top selling months?
+4. Who are the top customer in terms of revenue and/or quantity?
+5. Compare the sales revenue of on current period against previous period?
+
+## Customer account classification  
+Customer account balance can be classified into 3 groups by creating a accbalance table and establishing one to many relationship with customer table. This solution satisfy 3rd normal form. In future if more than 3 groups are required for classification, this solution can easily scale to meet the requirement without any data quality issue. 
+
+![](images/CustomerAccountBalanceGroup.png)
+
+## Add revenue per line item
+This can be achieved by denormalising orders and lineitem tables into a single table as shown below. o_totalprice is the revenue for the order per line item
+
+![](images/revenueperlineitem.png)
+
+## Convert the dates to be distributed over the last 2 years
+
+Data can be distributed over the last 2 years through partitioning. For instance below query will partiton the orders table on the order date column.
+
+```
+CREATE TABLE orders (
+    o_orderkey      INTEGER NOT NULL ,
+    o_custkey       INTEGER NOT NULL,
+    o_orderstatus   TEXT    NOT NULL,
+    o_totalprice    INTEGER NOT NULL,
+    o_orderdate     DATE    NOT NULL,
+    o_orderpriority TEXT    NOT NULL,
+    o_clerk         TEXT    NOT NULL,
+    o_shippriority  INTEGER NOT NULL,
+    o_comment       TEXT    NOT NULL
+) PARTITION BY RANGE (o_orderdate);
+
+
+CREATE TABLE orders_1998_1997 PARTITION OF orders
+    FOR VALUES FROM ('1997-01-01') TO ('1998-12-31');
+```    
+
