@@ -14,7 +14,7 @@ PostgreSQL RDBMS is used for storing relational data. Data files from AWS S3 are
 
 ### Airflow
 
-Apache Airflow is used for scheduling and monitoring workflows. Docker Airflow is used for development and building workflow solutions. Below link contains documentation of docker airflow.
+Apache Airflow is used for scheduling and monitoring workflows. Docker Airflow is used for development and building workflow solutions. Below link contains documentation to docker airflow.
 
 https://github.com/puckel/docker-airflow
 
@@ -26,7 +26,7 @@ Below is the ETL diagram showing data ingestion process.
 
 ## Data flow process
 ### Source
-Source files are in .tbl format and are stored in AWs S3 bucket. They are table files and hold data in table format. Python pandas module 'read_csv' is used to read data from these files. Below files are stored in S3 bucket 'issplayground'.  
+Source files are in .tbl format and are stored in AWS S3 bucket. They are table files and hold data in table format. Python pandas module 'read_csv' can be used to read data from these files. Below files are stored in S3 bucket 'issplayground'.  
   
 1. region.tbl
 2. nation.tbl
@@ -192,3 +192,23 @@ s3_postgresql dag runs every 15 minutes to load data from S3 bucket. This ensure
 lineitem and orders table are the biggest tables containing 60175 and 15000 records respectively. At a rate of 6.1-12.7%, lineitem table grows by 3671-7642 records a month. This is still manageable for the data ingestion. To improve the data load performance, delta load can be implemented by introducing timestamp column in source system and ingesting only new or modified records based on timestamp.
 
 ## Encoded file bonus_etl_data_gen.txt
+
+Below python command can be used to detect encoding type.
+Reference: https://stackoverflow.com/questions/436220/how-to-determine-the-encoding-of-text
+
+```
+import chardet
+rawdata = open(r"/Users/abc/Downloads/bonus_etl_data_gen.txt", 'rb').read()
+result = chardet.detect(rawdata)
+
+output:
+{'encoding': 'ascii', 'confidence': 1.0, 'language': ''}
+```
+Tried reading the text using below command, However, I was unsuccessful in decoding it.
+```
+data = open(
+    r"/Users/ISSAC/Downloads/bonus_etl_data_gen.txt", encoding="ascii"
+).read()
+print(data)
+```
+ 
