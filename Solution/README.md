@@ -115,3 +115,31 @@ https://www.techtarget.com/searchdatamanagement/definition/data-profiling
 
 
 ## Implementation Steps
+
+1. Pull postgres version 11 docker image. Start Postgres instance by providing database name, user, password and port number. Persist the data to local folder.
+commands
+a. docker pull postgres:11
+b. docker run --name postgres -e POSTGRES_USER=username -e POSTGRES_PASSWORD=password -p 5432:5432 -v /data:/var/lib/postgresql/data -d postgres
+
+2. Pull Airflow docker and start the instance by running below command. Persists dag folder to local drive.
+docker run -d -p 8080:8080 -v /path/to/dags/on/your/local/machine/:/usr/local/airflow/dags  puckel/docker-airflow webserver
+
+3. Setup AWS S3 connection in Airflow by naviagting to Admin -> Connections as shown below.
+
+Provide access key Id in the login and secret key in the password. 
+
+![](images/S3_Connection.png)
+
+4. Setup connection to local PostgreSQL by naviagting to Admin -> Connections as shown below.
+
+![](images/postgres_connection.png)
+
+5. Deploy DAG files s3_postgresql.py and dw_dataload.py into dag folder. Refresh Airflow web page. Deployed DAGS are displayed as shown below.
+
+![](images/DAG.png)
+
+6. DAGS  
+
+dw_data_load: loads data from transactional tables into star schema dimensional model
+s3_postgresql: loads data from AWS S3 into transactional tables
+
