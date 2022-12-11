@@ -142,7 +142,7 @@ s3_postgresql: loads data from AWS S3 into transactional tables
 ## Data Reporting
 ReportQueries.sql  
 
-This script contains queries that helps business make executive decisions. Report queries give analytical insights into top nations and customers in terms of revenue, top selling month and sales revenue. 
+This script contains queries that helps business make executive decisions. Queries uses transactional tables for reporting. Report queries give analytical insights into top nations and customers in terms of revenue, top selling month and sales revenue. 
 
 SQL queries within this script answer below questions  
 
@@ -151,6 +151,10 @@ SQL queries within this script answer below questions
 3. What are the top selling months?
 4. Who are the top customer in terms of revenue and/or quantity?
 5. Compare the sales revenue of on current period against previous period?
+
+dw_reportinqueries.sql
+This script contains queries that helps business make executive decisions. Queries uses customer order star schema dimensional model and provides same analytical insigts as ReportQueries.sql. When compared to ReportQueries.sql, these queries uses less join to answer the above questions thus providing better read performance. This is one of the benefit of denormalising table and star schema dimensional model.
+
 
 ## Customer account classification  
 Customer account balance can be classified into 3 groups by creating a accbalance table and establishing one to many relationship with customer table. This solution satisfy 3rd normal form. In future if more than 3 groups are required for classification, this solution can easily scale to meet the requirement without any data quality issue. 
