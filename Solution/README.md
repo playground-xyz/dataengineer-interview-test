@@ -105,7 +105,7 @@ Results of data profiling will lead to below benefits impacting analysis and des
  - highlights areas within a system that experience the most data quality issues, such as data corruption or user input errors; and
    produces insights surrounding risks, opportunities and trends.
 
-I have not used Profiling tools. I manually do profiling like identifying keys (primary, unique), missing data, making sure every table has primary key and checking for relationships to build join queries.
+I have not used Profiling tools. I manually do profiling task like identifying keys (primary, unique), missing data, making sure every table has primary key and checking for relationships to build join queries.
 
 From the below link I found some of the tools that can be used for data profiling
 1. Talend Open Profiler
