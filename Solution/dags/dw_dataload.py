@@ -164,7 +164,7 @@ DAG is schedule to run daily @ 10 PM
 """
 dag = DAG('dw_data_load',          
           description='Load and transform data ',
-          start_date=datetime(2022, 12, 9, 22, 0, 0, 0),
+          start_date=datetime(2022, 12, 12, 22, 0, 0, 0),
           schedule_interval='@daily',
           default_args=default_args,
         )
