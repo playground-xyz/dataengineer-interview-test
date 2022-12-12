@@ -120,13 +120,19 @@ https://hevodata.com/learn/data-profiling-tools/
 
 ## Implementation Steps
 
-1. Pull postgres version 11 docker image. Start Postgres instance by providing database name, user, password and port number. Persist the data to local folder.
-commands
-a. docker pull postgres:11
-b. docker run --name postgres -e POSTGRES_USER=username -e POSTGRES_PASSWORD=password -p 5432:5432 -v /data:/var/lib/postgresql/data -d postgres
+1. Pull postgres version 11 docker image. Start Postgres instance by providing database name, user, password and port number. Persist the data to local folder.  
 
-2. Pull Airflow docker and start the instance by running below command. Persists dag folder to local drive.
+Commands  
+```
+docker pull postgres:11
+docker run --name postgres -e POSTGRES_USER=username -e POSTGRES_PASSWORD=password -p 5432:5432 -v /data:/var/lib/postgresql/data -d postgres
+```
+
+2. Pull Airflow docker and start the instance by running below command. Persists dag folder to local drive.  
+
+```
 docker run -d -p 8080:8080 -v /path/to/dags/on/your/local/machine/:/usr/local/airflow/dags  puckel/docker-airflow webserver
+```
 
 3. Create AWS S3 bucket 'issplayground'. Setup AWS S3 connection in Airflow by navigating to Admin -> Connections as shown below.
 
