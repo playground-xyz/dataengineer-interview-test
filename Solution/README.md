@@ -218,7 +218,8 @@ lineitem and orders table are the biggest tables containing 60175 and 15000 reco
 
 ## Encoded file bonus_etl_data_gen.txt
 
-Below python command can be used to detect encoding type.
+Below python command can be used to detect encoding type.  
+
 Reference: https://stackoverflow.com/questions/436220/how-to-determine-the-encoding-of-text
 
 ```
