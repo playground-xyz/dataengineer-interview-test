@@ -65,11 +65,11 @@ Below is the customer order star schema dimensional model
 
 ## Data ingestion process
 
-Below scripts are used to create tables and ingest data.
+Below scripts are used for table creation and data ingestion process.
 
 1. CreateTableScript.sql
 
-This script creates data warehouse tables. Data from these tables are consumed by reporting application for reporting and analytical purpose.
+This script create tables for customer order star schema dimensional model. Data from these tables are consumed by reporting application for reporting and analytical purpose.
 
 2. s3_postgresql.py  
 
