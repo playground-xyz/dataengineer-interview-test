@@ -75,13 +75,13 @@ def data_load(cur, conn, tables, s3_client, schema, bucket):
         elif table == 'part':
             col = ['p_partkey', 'p_name', 'p_mfgr', 'p_brand', 'p_type', 'p_size', 'p_container', 'p_retailprice',
                    'p_comment']
-            insert_query = (f"INSERT INTO {schema}.{table}( 'p_partkey', 'p_name', 'p_mfgr', 'p_brand', 'p_type', 'p_size', 'p_container', 'p_retailprice',\
-                                'p_comment' ) \
+            insert_query = (f"INSERT INTO {schema}.{table}( p_partkey, p_name, p_mfgr, p_brand, p_type, p_size, p_container, p_retailprice,\
+                            p_comment ) \
                                 VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s) ON CONFLICT (p_partkey) DO NOTHING; ")  
 
         elif table == 'supplier':
             col = ['s_suppkey', 's_name', 's_address', 's_nationkey', 's_phone', 's_acctbal', 's_comment']
-            insert_query = (f"INSERT INTO {schema}.{table}( 's_suppkey', 's_name', 's_address', 's_nationkey', 's_phone', 's_acctbal', 's_comment') \
+            insert_query = (f"INSERT INTO {schema}.{table}( s_suppkey, s_name, s_address, s_nationkey, s_phone, s_acctbal, s_comment) \
                                 VALUES (%s, %s, %s, %s, %s, %s, %s) ON CONFLICT (s_suppkey) DO NOTHING; ")           
             
         elif table == 'partsupp':
@@ -113,7 +113,7 @@ def data_load(cur, conn, tables, s3_client, schema, bucket):
             insert_query = (f"INSERT INTO {schema}.{table}( l_orderkey, l_partkey, l_suppkey, l_linenumber, l_quantity, l_extendedprice, \
                    l_discount, l_tax, l_returnflag, l_linestatus, l_shipdate, l_commitdate, l_receiptdate, l_shipinstruct, \
                    l_shipmode, l_comment) \
-                    VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) ON CONFLICT (l_orderkey) DO NOTHING; ")
+                    VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) ON CONFLICT (l_orderkey, l_linenumber) DO NOTHING; ")
 
         # below code checks for the s3 connection status and reads data from the file
         if status == 200:
@@ -127,8 +127,17 @@ def data_load(cur, conn, tables, s3_client, schema, bucket):
         #print(table_df)
         records = [tuple(x) for x in table_df.to_numpy()]
         #print(records)
-        cur.executemany(insert_query, records)
-        conn.commit()
+        try:
+
+            cur.executemany(insert_query, records)
+            conn.commit()
+            print(f"{table} data load completed")
+        except Exception as error:
+
+            print(f"Error while inserting data into {table} table", error)
+            print("Exception TYPE:", type(error))
+            print("\n")
+            conn.rollback() 
 
 
 
@@ -146,7 +155,7 @@ DAG is schedule to run every 15 minutes.
 """
 dag = DAG('s3_postgresql',          
           description='Load and transform data ',
-          start_date=datetime(2022, 12, 15, 8, 0, 0, 0),
+          start_date=datetime(2022, 12, 10, 8, 0, 0, 0),
           schedule_interval=timedelta(minutes=15),
           default_args=default_args,
         )
