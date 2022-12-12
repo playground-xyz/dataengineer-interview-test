@@ -140,7 +140,7 @@ Provide access key Id in the login and secret key in the password.
 
 ![](images/S3_Connection.png)
 
-4. Setup connection to local PostgreSQL by navigating to Admin -> Connections as shown below.
+4. Setup connection to local PostgreSQL by navigating to Admin -> Connections as shown below. Host name host.docker.internal refers to postgres docker instance
 
 ![](images/postgres_connection.png)
 
