@@ -1,7 +1,7 @@
 --DW Queries
 --What are the top 5 nations in terms of revenue?
 SELECT r.country, sum(o_totalprice) AS revenue FROM (
-                  SELECT DISTINCT o_totalprice, dc.country
+                  SELECT DISTINCT l_orderkey, o_totalprice, dc.country
                   FROM dw_lineitem
                            INNER JOIN dw_country dc ON dw_lineitem.n_nationkey = dc.n_nationkey
               ) r
