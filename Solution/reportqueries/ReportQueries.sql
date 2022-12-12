@@ -31,11 +31,11 @@ ORDER BY Revenue DESC
 ;
 
 --Who are the top customer in terms of revenue and/or quantity?
-SELECT o_custkey, c_name, SUM(o_totalprice) AS totat_price, SUM(l_quantity) AS quantity
+SELECT c_name, SUM(o_totalprice) AS totat_price, SUM(l_quantity) AS quantity
 FROM orders
 INNER JOIN lineitem l ON orders.o_orderkey = l.l_orderkey
 INNER JOIN customer c ON c.c_custkey = orders.o_custkey
-GROUP BY o_custkey, c_name
+GROUP BY c_name
 ORDER BY totat_price DESC, quantity DESC
 ;
 
