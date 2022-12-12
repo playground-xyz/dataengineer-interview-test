@@ -87,9 +87,9 @@ Below are data profiling techniques implemented for high data quality and integr
     
 2. Identify missing or unknown data. 
     
-3. Identify length of the data to ensure appropriate data type and length is select
+3. Identify length of the data to ensure appropriate data type length is selected
     
-4. Ensure keys are always present in the data, using zero/blank/null analysis.    
+4. Ensure keys are always present in the data.
     
 5. Check relationships like one-to-one, one-to-many, many-to-many, between related data sets to perform joins correctly.    
     
@@ -97,17 +97,25 @@ Below are data profiling techniques implemented for high data quality and integr
 
 Results of data profiling will lead to below benefits impacting analysis and design.
 
- - leads to higher-quality, more credible data;
- - helps with more accurate decision-making;
- - makes better sense of the relationships between different data sets and sources;
- - keeps information centralized and organized;
- - eliminates errors, such as missing values or outliers, that add costs to data-driven projects;
+ - leads to higher-quality, more credible data.
+ - helps with more accurate decision-making.
+ - makes better sense of the relationships between different data sets and sources.
+ - keeps information centralized and organized.
+ - eliminates errors, such as missing values or outliers, that add costs to data-driven projects.
  - highlights areas within a system that experience the most data quality issues, such as data corruption or user input errors; and
    produces insights surrounding risks, opportunities and trends.
-   
+
+I have not used Profiling tools. I manually do profiling like identifying keys (primary, unique), missing data, making sure every table has primary key and checking for relationships to build join queries.
+
+From the below link I found some of the tools that can be used for data profiling
+1. Talend Open Profiler
+2. Quadient Data Cleaner
+3. OpenRefine
+4. Apache Griffin
+5. Informatica
+
 Reference:
-https://panoply.io/analytics-stack-guide/data-profiling-best-practices/
-https://www.techtarget.com/searchdatamanagement/definition/data-profiling
+https://hevodata.com/learn/data-profiling-tools/
 
 
 ## Implementation Steps
@@ -120,7 +128,7 @@ b. docker run --name postgres -e POSTGRES_USER=username -e POSTGRES_PASSWORD=pas
 2. Pull Airflow docker and start the instance by running below command. Persists dag folder to local drive.
 docker run -d -p 8080:8080 -v /path/to/dags/on/your/local/machine/:/usr/local/airflow/dags  puckel/docker-airflow webserver
 
-3. Setup AWS S3 connection in Airflow by navigating to Admin -> Connections as shown below.
+3. Create AWS S3 bucket 'issplayground'. Setup AWS S3 connection in Airflow by navigating to Admin -> Connections as shown below.
 
 Provide access key Id in the login and secret key in the password. 
 
@@ -130,11 +138,16 @@ Provide access key Id in the login and secret key in the password.
 
 ![](images/postgres_connection.png)
 
-5. Deploy DAG files s3_postgresql.py and dw_dataload.py into dag folder. Refresh Airflow web page. Deployed DAGS are displayed as shown below.
+5. Install Python modules from the requirement.txt file
+```
+pip install -r requirements.txt
+```
+
+6. Deploy DAG files s3_postgresql.py and dw_dataload.py into dag folder. Refresh Airflow web page. Deployed DAGS are displayed as shown below.
 
 ![](images/DAG.png)
 
-6. DAGS  
+7. DAGS  
 
 dw_data_load: loads data from transactional tables into star schema dimensional model
 s3_postgresql: loads data from AWS S3 into transactional tables
@@ -152,7 +165,7 @@ SQL queries within this script answer below questions
 4. Who are the top customer in terms of revenue and/or quantity?
 5. Compare the sales revenue of on current period against previous period?
 
-dw_reportinqueries.sql
+dw_reportingqueries.sql
 This script contains queries that helps business make executive decisions. Queries uses customer order star schema dimensional model and provides same analytical insight as ReportQueries.sql. When compared to ReportQueries.sql, these queries uses less join to answer the above questions thus providing better read performance. This is one of the benefit of denormalization and star schema dimensional model.
 
 
