@@ -140,7 +140,7 @@ Provide access key Id in the login and secret key in the password.
 
 ![](images/S3_Connection.png)
 
-4. Setup connection to local PostgreSQL by navigating to Admin -> Connections as shown below. Host name host.docker.internal refers to postgres docker instance
+4. Setup connection to local PostgreSQL by navigating to Admin -> Connections as shown below. Host name host.docker.internal refers to postgres docker instance.
 
 ![](images/postgres_connection.png)
 
@@ -155,8 +155,9 @@ pip install -r requirements.txt
 
 7. DAGS  
 
-dw_data_load: loads data from transactional tables into star schema dimensional model
-s3_postgresql: loads data from AWS S3 into transactional tables
+dw_data_load: This dag loads data from transactional tables into star schema dimensional model  
+
+s3_postgresql: This dag loads data from AWS S3 into transactional tables
 
 ## Data Reporting
 ReportQueries.sql  
@@ -171,7 +172,8 @@ SQL queries within this script answer below questions
 4. Who are the top customer in terms of revenue and/or quantity?
 5. Compare the sales revenue of on current period against previous period?
 
-dw_reportingqueries.sql
+dw_reportingqueries.sql  
+
 This script contains queries that helps business make executive decisions. Queries uses customer order star schema dimensional model and provides same analytical insight as ReportQueries.sql. When compared to ReportQueries.sql, these queries uses less join to answer the above questions thus providing better read performance. This is one of the benefit of denormalization and star schema dimensional model.
 
 
@@ -187,7 +189,7 @@ This can be achieved by denormalization of orders and lineitem tables into a sin
 
 ## Convert the dates to be distributed over the last 2 years
 
-Data can be distributed over the last 2 years through partitioning. For instance below query will partition the orders table on the order date column.
+Data can be distributed over the last 2 years through partitioning. For instance, below query will partition the orders table on the order date column for the last two years.
 
 ```
 CREATE TABLE orders (
@@ -212,7 +214,7 @@ CREATE TABLE orders_1998_1997 PARTITION OF orders
 s3_postgresql dag runs every 15 minutes to load data from S3 bucket. This ensures data is ingested even if the data arrives at different times and in random order. The dag also handles conflict for duplicate records. The code can also be modified to do upsert for data ingestion. 
 
 ## Would be a problem if the data from the source system is growing at 6.1-12.7% rate a month?
-lineitem and orders table are the biggest tables containing 60175 and 15000 records respectively. At a rate of 6.1-12.7%, lineitem table grows by 3671-7642 records a month. This is still manageable for the data ingestion. To improve the data load performance, delta load can be implemented by introducing timestamp column in source system and ingesting only new or modified records based on timestamp.
+lineitem and orders table are the biggest tables containing 60175 and 15000 records respectively. At a rate of 6.1-12.7%, lineitem table grows by 3671-7642 records a month. This is still manageable for the data ingestion. To improve the data load performance, delta load can be implemented by introducing timestamp column in source system and ingest only new or modified records based on timestamp.
 
 ## Encoded file bonus_etl_data_gen.txt
 
