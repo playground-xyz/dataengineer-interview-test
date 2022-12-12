@@ -24,10 +24,10 @@ ORDER BY count DESC
 ;
 
 --What are the top selling months?
-SELECT to_char(o_orderdate, 'Month') AS Month, count(*) AS number_of_orders
+SELECT to_char(o_orderdate, 'Month') AS Month, sum(o_totalprice) AS Revenue
 FROM orders
 GROUP BY to_char(o_orderdate, 'Month')
-ORDER BY number_of_orders DESC
+ORDER BY Revenue DESC
 ;
 
 --Who are the top customer in terms of revenue and/or quantity?
